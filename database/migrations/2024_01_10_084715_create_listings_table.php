@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('youtube')->nullable();
             $table->string('picture')->nullable();
             $table->string('contact_no');
-            $table->string('description');
-            $table->string('address');
+            $table->string('description')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-@extends('layout.employer_main')
+@extends('layout.main')
 
 @section('title', 'Edit Listing')
 
@@ -8,7 +8,7 @@
             <h1 class="h3 mb-3">Edit Listing</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{ route('show', $listing) }}" class="btn btn-outline-primary">Back</a>
+            <a href="{{ route('showlistings', $listing) }}" class="btn btn-outline-primary">Back</a>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-body">
                     @include('partials.alerts')
-                    <form action="{{ route('editlisting', $listing) }}" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-4">

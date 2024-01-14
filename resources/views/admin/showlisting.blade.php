@@ -1,6 +1,6 @@
-@extends('layout.employer_main')
+@extends('layout.main')
 
-@section('title', 'Listing Details')
+@section('title', 'Employers Details')
 
 @section('content')
     <div class="row">
@@ -8,7 +8,7 @@
             <h1 class="h3 mb-3">{{ $listing->company_name }} Details</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{ route('showlisting') }}" class="btn btn-outline-primary">Back to Listings</a>
+            <a href="{{ route('listings', $listing) }}" class="btn btn-outline-primary">Back to Listings</a>
         </div>
     </div>
 
@@ -31,6 +31,7 @@
                         <h5 class="card-title">{{ $listing->company_name }}</h5>
                         <p class="card-text"><strong>Email:</strong> {{ $listing->email }}</p>
                         <p class="card-text"><strong>Contact No.:</strong> {{ $listing->contact_no }}</p>
+                        <p class="card-text"><strong>Company:</strong> {{ $listing->company_name }}</p>
                         <p class="card-text"><strong>Vacancies:</strong> {{ $listing->vacancies_available }}</p>
                         <p class="card-text"><strong>Category:</strong> {{ $listing->job_category }}</p>
                         <p class="card-text"><strong>Salary</strong> {{ $listing->salary }}</p>
@@ -38,8 +39,8 @@
                         <p class="card-text"><strong>Address</strong> {{ $listing->address }}</p>
 
                         <div>
-                            <a href="{{ route('editlisting', $listing) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('destroy', $listing) }}" method="post" class="d-inline">
+                            <a href="{{ route('editlistings', $listing) }}" class="btn btn-primary">Edit</a>
+                            <form action="" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>

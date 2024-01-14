@@ -1,4 +1,4 @@
-@extends('layout.employer_main')
+@extends('layout.main')
 
 @section('title', 'Profile')
 
@@ -14,7 +14,7 @@
                 </div>
                 <div class="card-body h-100">
                     @include('partials.alerts')
-                    <form action="{{ route('admindetails') }}" method="post">
+                    <form action="{{ route('updateemployer',  ['id' => $employer->id]) }}" method="post">
                         @csrf
                         @method('PATCH')
                         <div class="row">
@@ -23,7 +23,7 @@
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" name="name" id="name"
                                         class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name') ?? $user->name }}" placeholder="Enter your name!">
+                                        value="{{ old('name') ?? $employer->name }}" placeholder="Enter your name!">
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -35,7 +35,7 @@
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" name="email" id="email"
                                         class="form-control @error('email') is-invalid @enderror"
-                                        value="{{ old('email') ?? $user->email }}" placeholder="Enter your email!">
+                                        value="{{ old('email') ?? $employer->email }}" placeholder="Enter your email!">
                                     @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -53,19 +53,9 @@
                     <h5 class="card-title mb-0">Password</h5>
                 </div>
                 <div class="card-body h-100">
-                    <form action="{{ route('password') }}" method="post">
+                    <form action="{{ route('updateemployerpassword', ['id' => $employer->id]) }}" method="post">
                         @csrf
                         @method('PATCH')
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="current_password" class="form-label">Current Password</label>
-                                <input type="password" name="current_password" id="current_password"
-                                class="form-control @error('password') is-invalid @enderror" placeholder="Enter your current password!">
-                                @error('current_password')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -106,18 +96,18 @@
                 </div>
                 <div class="card-body text-center">
                     <div id="picture-section">
-                        @if ($user->picture)
-                            <img src="{{ asset('template/img/employerphotos/' . $user->picture) }}"
+                        @if ($employer->picture)
+                            <img src="{{ asset('template/img/employerphotos/' . $employer->picture) }}"
                                 alt="Placeholder picture" class="img-fluid rounded-circle mb-2" width="200"
                                 height="200" />
                         @else
-                            <img src="https://ui-avatars.com/api/?name={{ $user->name }}}"
+                            <img src="https://ui-avatars.com/api/?name={{ $employer->name }}}"
                                 alt="Placeholder picture" class="img-fluid rounded-circle mb-2" width="200"
                                 height="200" />
                         @endif
                     </div>
                     <div>
-                        <form action="{{ route('picture') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('updateemployerpicture', ['id' => $employer->id]) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
                             <div class="mb-3">

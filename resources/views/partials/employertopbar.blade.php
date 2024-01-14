@@ -38,7 +38,7 @@
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
                     @if (Auth::user()->picture)
-                    <img src="{{ asset('template/img/adminphotos/' . Auth::user()->picture) }}"
+                    <img src="{{ asset('template/img/employerphotos/' . Auth::user()->picture) }}"
                         class="avatar img-fluid rounded me-1" alt="{{ Auth::user()->name }}" /> <span
                         class="text-dark">{{ Auth::user()->name }}</span>
                 @else

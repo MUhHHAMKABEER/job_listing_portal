@@ -12,7 +12,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="">
+                <a class="sidebar-link" href="{{ route('listings') }}">
                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Listings</span>
                 </a>
             </li>
@@ -24,7 +24,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="">
+                <a class="sidebar-link" href="{{ route('employers') }}">
                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Employers</span>
                 </a>
             </li>

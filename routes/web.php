@@ -43,14 +43,29 @@ Route::controller(AdminController::class)->group(function () {
     Route::patch('details', 'update')->name('admindetails');
     Route::patch('password', 'password')->name('adminpassword');
     Route::patch('picture', 'picture')->name('adminpicture');
+    Route::get('employers', 'employers')->name('employers');
+    Route::get('showemployers/{id}', 'showemployers')->name('showemployers');
+    Route::get('editemp/{id}', 'edit')->name('edit');
+    Route::patch('updateemployer/{id}', 'updateemployer')->name('updateemployer');
+    Route::patch('updatepicture/{id}', 'updatepicture')->name('updateemployerpicture');
+    Route::patch('updatepassword/{id}', 'updateemployerpassword')->name('updateemployerpassword');
+    Route::delete('deleteemployer/{id}', 'deleteemployer')->name('deleteemployer');
+    Route::get('listings', 'listings')->name('listings');
+    Route::get('{id}/showlistings', 'showlistings')->name('showlistings');
+    Route::get('{id}/editlistings', 'editlistings')->name('editlistings');
 });
 
 Route::controller(EmployerListingController::class)->group(function(){
     Route::get('showlist', 'index')->name('showlisting');
     Route::get('create','create')->name('createlisting');
     Route::post('create','store');
-    Route::get('{listing}/showlistings','show')->name('show');
+    Route::get('{listing}/showemployerlistings','show')->name('show');
     Route::get('{listing}/edit','edit')->name('editlisting');
     Route::post('{listing}/edit','update');
+    Route::get('{listing}/add_desc','add_desc')->name('editadddesc');
+    Route::post('{listing}/add_desc','add_desc');
+
+    Route::patch('employerpassword', 'password')->name('password');
+    Route::patch('employerpicture', 'picture')->name('picture');
     Route::delete('{listing}/edit','destroy')->name('destroy');
 });
