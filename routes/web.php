@@ -50,9 +50,18 @@ Route::controller(AdminController::class)->group(function () {
     Route::patch('updatepicture/{id}', 'updatepicture')->name('updateemployerpicture');
     Route::patch('updatepassword/{id}', 'updateemployerpassword')->name('updateemployerpassword');
     Route::delete('deleteemployer/{id}', 'deleteemployer')->name('deleteemployer');
+    Route::get('createemployer', 'createemployer')->name('create.employer');
+    Route::post('createemployer', 'addemployer');
     Route::get('listings', 'listings')->name('listings');
     Route::get('{id}/showlistings', 'showlistings')->name('showlistings');
-    Route::get('{id}/editlistings', 'editlistings')->name('editlistings');
+
+    Route::get('editlistings/{listing}', 'editlistings')->name('editlistings');
+    Route::patch('editlistings/{listing}', 'updateListings');
+    Route::patch('updatedec_addr/{listing}', 'updatedec_addr')->name('updatedec_addr');
+    Route::delete('deletelisting/{listing}', 'destroy')->name('deletelisting');
+    Route::get('createlisting', 'createlistings')->name('createlistings');
+    Route::post('createlisting', 'addlistings');
+
 });
 
 Route::controller(EmployerListingController::class)->group(function(){

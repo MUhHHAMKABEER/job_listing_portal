@@ -145,7 +145,6 @@ class AdminController extends Controller
         } else {
             return back()->with(['failure' => 'Failed to updateemployer details']);
         }
-
     }
 
     public function updatepicture(Request $request, $id)
@@ -187,30 +186,58 @@ class AdminController extends Controller
         ]);
 
         // if (Hash::check($request->current_password, $employer->password)) {
-            $data = [
-                'password' => Hash::make($request->password),
-            ];
+        $data = [
+            'password' => Hash::make($request->password),
+        ];
 
-            if ($employer->update($data)) {
-                return back()->with(['success' => 'Employer password successfully updated!']);
-            } else {
-                return back()->with(['failure' => 'Failed to update employer password!']);
-            }
+        if ($employer->update($data)) {
+            return back()->with(['success' => 'Employer password successfully updated!']);
+        } else {
+            return back()->with(['failure' => 'Failed to update employer password!']);
+        }
         // } else {
         //     return back()->withErrors(['current_password' => 'Current password does not match!']);
         // }
+    }
+
+    public function createemployer()
+    {
+        return view('admin.createemployers');
+    }
+
+    public function addemployer(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        // Create the employer
+        $employer = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password), // Hash the password
+            'type' => 'employer',
+            // Add other fields as needed
+        ]);
+
+        return redirect()->route('create.employer')->with(['success' => 'Employer added successfully']);
     }
 
     public function deleteemployer(Request $request, $id)
     {
         $employer = User::find($id);
 
-        if ($employer->delete()) {
-            return redirect()->route('employers')->with(['success' => 'Employer successfully deleted!']);
+        if ($employer) {
+            $employer->delete(); // This will delete the associated listings due to onDelete('cascade')
+
+            return redirect()->route('employers')->with(['success' => 'Employer and associated listings successfully deleted!']);
         } else {
-            return redirect()->route('employers')->with(['failure' => 'Failed to delete employer!']);
+            return redirect()->route('employers')->with(['failure' => 'Employer not found!']);
         }
     }
+
 
     public function listings()
     {
@@ -230,39 +257,145 @@ class AdminController extends Controller
         }
     }
 
-    public function editlistings(listing $listing)
+    public function createlistings(){
+        $employers = User::where('type', 'employer')->get();
+
+        return view('admin.createlisting', ['employers' => $employers,
+        // 'users' => listing::where('user_id', '=', Auth::id())->get(),
+    ]);
+
+
+    }
+    public function addlistings(Request $request)
     {
-        return view('admin.editlisting',[
-            'listing' => $listing,
+        $request->validate([
+            'category_id' => ['required'],
+            'company_name' => ['required'],
+            'job_category' => ['required'],
+            'salary' => ['required'],
+            'vacancies_available' => ['required'],
+            'email' => ['required'],
+            'picture' => ['image', 'mimes:png,jpg,jpeg,webp'],
+            'contact_no' => ['required'],
+            'description' => ['required'],
+            'address' => ['required'],
         ]);
+
+        if ($request->picture) {
+            $name = microtime(true) . $request->picture->hashName();
+            $request->picture->move(public_path('template/img/company_photos'), $name);
+        } else {
+            $name = null;
+        }
+
+        $data = [
+            'category_id' => $request->category_id,
+            'company_name' => $request->company_name,
+            'job_category' => $request->job_category,
+            'salary' => $request->salary,
+            'vacancies_available' => $request->vacancies_available,
+            'email' => $request->email,
+            'contact_no' => $request->contact_no,
+            'description' => $request->description,
+            'address' => $request->address,
+            'picture' => $name,
+            'user_id' => Auth::id(),
+        ];
+
+        if (listing::create($data)) {
+            // Retrieve the list of employers
+            $employers = User::where('type', 'employer')->get();
+
+            return view('admin.createlisting', ['success' => 'Magic has been spelled!', 'employers' => $employers]);
+        } else {
+            return back()->with(['failure' => 'Magic has failed to spell!']);
+        }
     }
 
 
 
+    public function editlistings($id)
+    {
+        $listing = Listing::find($id);
+
+        if ($listing) {
+            return view('admin.editlisting', ['listing' => $listing]);
+        } else {
+            return back()->with(['failure' => 'Listing not found!']);
+        }
+    }
+
+    public function updateListings(Request $request, listing $listing)
+    {
+        $request->validate([
+            'company_name' => ['required'],
+            'job_category' => ['required'],
+            'salary' => ['required'],
+            'vacancies_available' => ['required'],
+            'email' => ['required'],
+            'picture' => ['image', 'mimes:png,jpg,jpeg,webp'],
+            'contact_no' => ['required'],
+
+        ]);
+        if ($request->picture) {
+            $name = microtime(true) . $request->picture->hashName();
+            $request->picture->move(public_path('template/img/company_photos'), $name);
+        } else {
+            $name = null;
+        }
+
+        $data = [
+            'company_name' => $request->company_name,
+            'job_category' => $request->job_category,
+            'salary' => $request->salary,
+            'vacancies_available' => $request->vacancies_available,
+            'email' => $request->email,
+            'contact_no' => $request->contact_no,
+            'picture' => $name,
+            'user_id' => Auth::id(),
+        ];
+
+        // if ($listing->$request->description == "" || $listing->$request->address == "") {
+            if ($listing->update($data)) {
+                return back()->with(['success' => 'Successfully Updated!']);
+            } else {
+                return back()->with(['failure' => 'Failed to update!']);
+            }
+
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function updatedec_addr(Request $request, listing $listing)
     {
-        //
+        // $user = User::find(Auth::id());
+
+        $request->validate([
+            'description' => ['required'],
+            'address' => ['required'],
+        ]);
+
+        $data = [
+           'description' => $request->description,
+           'address' => $request->address,
+           'user_id' => Auth::id(),
+        ];
+        if ($listing->update($data)) {
+            return back()->with(['success' => 'Successfully Updated!']);
+        } else {
+            return back()->with(['failure' => 'Failed to update!']);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(listing $listing)
     {
-        //
+        if ($listing->delete()){
+            return redirect()->route('listings')->with(['success' => 'Successfully deleted!']);
+        } else {
+            return redirect()->route('listings')->with(['failure' => 'Failed to delete!']);
+        }
     }
+
+
 }

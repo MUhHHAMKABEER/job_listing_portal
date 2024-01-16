@@ -14,7 +14,7 @@ return new class extends Migration
         // $defaultUserId = 10;
 
         Schema::table('listings', function (Blueprint $table) {
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // ->default($defaultUserId)->constrained();
         });
     }

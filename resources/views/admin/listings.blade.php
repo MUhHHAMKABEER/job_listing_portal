@@ -9,7 +9,7 @@
             <h1 class="h3 mb-3">Listings</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{ route('listings')}}" class="btn btn-outline-primary">Add Listings</a>
+            <a href="{{ route('createlistings')}}" class="btn btn-outline-primary">Add Listings</a>
         </div>
     </div>
 

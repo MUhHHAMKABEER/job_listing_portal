@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="{{ asset('template/img/icons/icon-48x48.png') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-KyZXEAg3QhqLMpG8r+Knujsl5+z0xGNQwW7yF5ttU8bF1atik00IICj5nK5ApSHJd6D2XJzm+VJL1jM98l1/WA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-KyZXEAg3QhqLMpG8r+Knujsl5+z0xGNQwW7yF5ttU8bF1atik00IICj5nK5ApSHJd6D2XJzm+VJL1jM98l1/WA=="
+        crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>@yield('title')</title>
 
@@ -46,7 +48,10 @@
                 </div>
             </main>
 
-            @include('partials.footer')
+        
+                @include('partials.footer')
+
+
         </div>
     </div>
 

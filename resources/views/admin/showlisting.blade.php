@@ -40,7 +40,7 @@
 
                         <div>
                             <a href="{{ route('editlistings', $listing) }}" class="btn btn-primary">Edit</a>
-                            <form action="" method="post" class="d-inline">
+                            <form action="{{ route('deletelisting', $listing) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>

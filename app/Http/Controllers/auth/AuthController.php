@@ -33,7 +33,7 @@ class AuthController extends Controller
                 return redirect()->route('employerdashboard');
             } elseif ($user->type === 'job_seeker') {
                 return redirect()->route('job_seekerdashboard');
-            } else {
+            } elseif ($user->type === 'admin') {
                 return redirect()->route('dashboard');
             }
         } else {

@@ -9,7 +9,7 @@
             <h1>Employers</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="" class="btn btn-outline-primary">Add Employers</a>
+            <a href="{{ route('create.employer') }}" class="btn btn-outline-primary">Add Employers</a>
         </div>
     </div>
 
