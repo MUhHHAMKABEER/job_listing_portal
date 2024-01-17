@@ -260,57 +260,54 @@ class AdminController extends Controller
     public function createlistings(){
         $employers = User::where('type', 'employer')->get();
 
-        return view('admin.createlisting', ['employers' => $employers,
-        // 'users' => listing::where('user_id', '=', Auth::id())->get(),
+        return view('admin.createlisting', ['employers' => $employers,]);
+
+
+    }
+   public function addlistings(Request $request)
+{
+    $request->validate([
+        'employer' => ['required'],
+        'company_name' => ['required'],
+        'job_category' => ['required'],
+        'salary' => ['required'],
+        'vacancies_available' => ['required'],
+        'email' => ['required', 'email'],
+        'picture' => ['image', 'required', 'mimes:png,jpg,jpeg,webp'],
+        'contact_no' => ['required'],
+        'description' => ['required'],
+        'address' => ['required'],
     ]);
 
+    // Get the selected employer ID from the form
+    $employerId = $request->employer;
 
+    $user = User::find($employerId);
+
+    if (!$user || $user->type !== 'employer') {
+        return back()->with(['failure' => 'Invalid employer selected!']);
     }
-    public function addlistings(Request $request)
-    {
-        $request->validate([
-            'category_id' => ['required'],
-            'company_name' => ['required'],
-            'job_category' => ['required'],
-            'salary' => ['required'],
-            'vacancies_available' => ['required'],
-            'email' => ['required'],
-            'picture' => ['image', 'mimes:png,jpg,jpeg,webp'],
-            'contact_no' => ['required'],
-            'description' => ['required'],
-            'address' => ['required'],
-        ]);
 
-        if ($request->picture) {
-            $name = microtime(true) . $request->picture->hashName();
-            $request->picture->move(public_path('template/img/company_photos'), $name);
-        } else {
-            $name = null;
-        }
+    $data = [
+        'company_name' => $request->company_name,
+        'job_category' => $request->job_category,
+        'salary' => $request->salary,
+        'vacancies_available' => $request->vacancies_available,
+        'email' => $request->email,
+        'contact_no' => $request->contact_no,
+        'description' => $request->description,
+        'address' => $request->address,
+    ];
 
-        $data = [
-            'category_id' => $request->category_id,
-            'company_name' => $request->company_name,
-            'job_category' => $request->job_category,
-            'salary' => $request->salary,
-            'vacancies_available' => $request->vacancies_available,
-            'email' => $request->email,
-            'contact_no' => $request->contact_no,
-            'description' => $request->description,
-            'address' => $request->address,
-            'picture' => $name,
-            'user_id' => Auth::id(),
-        ];
+    // Create a new listing for the selected employer
+    $listing = $user->listings()->create($data);
 
-        if (listing::create($data)) {
-            // Retrieve the list of employers
-            $employers = User::where('type', 'employer')->get();
-
-            return view('admin.createlisting', ['success' => 'Magic has been spelled!', 'employers' => $employers]);
-        } else {
-            return back()->with(['failure' => 'Magic has failed to spell!']);
-        }
+    if ($listing) {
+        return back()->with(['success' => 'Listing created successfully!']);
+    } else {
+        return back()->with(['failure' => 'Failed to create listing!']);
     }
+}
 
 
 

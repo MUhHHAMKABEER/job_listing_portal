@@ -6,7 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer_listing\EmployerListingController;
-
+use App\Http\Controllers\JobSeekerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,3 +78,15 @@ Route::controller(EmployerListingController::class)->group(function(){
     Route::patch('employerpicture', 'picture')->name('picture');
     Route::delete('{listing}/edit','destroy')->name('destroy');
 });
+
+Route::controller(JobSeekerController::class)->group(function(){
+    // Route::get('jsdashboard', 'index')->name('jsdashboard');
+    Route::get('index', 'index')->name('jsdashboard');
+    Route::patch('profile', 'profile')->name('jsprofile');
+    Route::patch('password', 'password')->name('jspassword');
+    Route::patch('picture', 'picture')->name('jspicture');
+    Route::get('listing' , 'showjslistings')->name('showjslistings');
+    // Route::get('/listings', 'showListings')->name('listings');
+
+
+} );

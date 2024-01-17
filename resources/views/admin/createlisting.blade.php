@@ -8,7 +8,7 @@
             <h1 class="h3 mb-3">Add Listing</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{ route('listings') }}" class="btn btn-outline-primary">Back</a>
+            <a href="" class="btn btn-outline-primary">Back</a>
         </div>
     </div>
 
@@ -16,62 +16,36 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {{-- <div class="col-6 mb-4">
-                        <div class="btn-group dropend">
-                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropend
-                            </button>
-                            <ul class="dropdown-menu mx-2">
-                                @foreach ($employers as $employer)
-                                    <li><a class="dropdown-item" href="#">{{ $employer->name }}</a></li>
-                                    <!-- Replace 'name' with the actual column name you want to display -->
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div> --}}
-
-
-                    {{-- <div class="col-md-4"> --}}
-
-                    {{-- @error('category_id')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror --}}
                     @include('partials.alerts')
-                    <form action="{{ route('createlistings') }}" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         @csrf
-                        {{-- <div class="col-md-5"> --}}
-                        {{-- <div> --}}
-                        <div class="col-3 mb-4">
-                            <label for="category_id" class="form-label">Category</label>
-                            <select id="category_id" name="category_id"
-                                class="form-select @error('category_id') is-invalid @enderror">
-                                <option value="">Select a category!</option>
-                                @if ($employer->listing->count() > 0)
-                                    <ul>
-                                        @foreach ($employers->listing as $employer)
-                                            <li>{{ $listing->company_name }}</li>
-                                            <!-- Add other listing details as needed -->
-                                        @endforeach
-                                    </ul>
-                                @else
+                        <div class="mb-3 col-4">
+                            <label for="employer" class="form-label">Employer</label>
+                            <select id="employer" name="employer" class="form-select @error('employer') is-invalid @enderror">
+                                <option value="">Select an Employer!</option>
+                                @foreach ($employers as $employer)
+                                    <option value="{{ $employer->id }}" @if(old('employer') == $employer->id) selected @endif>
+                                        {{ $employer->name }}
+                                    </option>
+                                @endforeach
                             </select>
-                            @error('category_id')
+                            @error('employer')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
-
                         </div>
+
                         <div class="row">
-                            <div class=" col-md-4">
-                                <label for="company_name" class="form-label">Company Name</label>
-                                <input type="text" id="company_name" name="company_name"
-                                    class="form-control @error('company_name') is-invalid @enderror"
-                                    value="{{ old('company_name') }}" placeholder="Company name!">
-                                @error('company_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="company_name" class="form-label">Company Name</label>
+                                    <input type="text" id="company_name" name="company_name"
+                                        class="form-control @error('company_name') is-invalid @enderror"
+                                        value="{{ old('company_name') }}" placeholder="Company name!">
+                                    @error('company_name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            {{-- </div> --}}
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="job_category" class="form-label">Job Category</label>
@@ -172,8 +146,8 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea name="description" id="description" rows="2"
-                                        class="form-control @error('description') is-invalid @enderror" placeholder="Description!"></textarea>
+                                    <textarea name="description" id="description" rows="2" class="form-control @error('description') is-invalid @enderror"
+                                        placeholder="Description!"></textarea>
                                     @error('description')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -213,8 +187,7 @@
             </div>
         </div>
     </div>
-    {{-- </div> --}}
-
 
     @include('partials.modals')
+
 @endsection
