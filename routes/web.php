@@ -77,6 +77,10 @@ Route::controller(EmployerListingController::class)->group(function(){
     Route::patch('employerpassword', 'password')->name('password');
     Route::patch('employerpicture', 'picture')->name('picture');
     Route::delete('{listing}/edit','destroy')->name('destroy');
+
+    //applicant
+    Route::get('applications','applications')->name('applications');
+
 });
 
 Route::controller(JobSeekerController::class)->group(function(){
@@ -85,8 +89,14 @@ Route::controller(JobSeekerController::class)->group(function(){
     Route::patch('profile', 'profile')->name('jsprofile');
     Route::patch('password', 'password')->name('jspassword');
     Route::patch('picture', 'picture')->name('jspicture');
-    Route::get('listing' , 'showjslistings')->name('showjslistings');
-    // Route::get('/listings', 'showListings')->name('listings');
+    Route::get('listing' , 'jslistings')->name('jslistings');
+    Route::get('{listing}/showlisting','showjslisting')->name('showjslisting');
+    Route::get('listing/{listingId}', 'pdf')->name('pdf');
+    Route::post('listing/{listingId}', 'pdf')->name('pdf');
+
+
+
+
 
 
 } );

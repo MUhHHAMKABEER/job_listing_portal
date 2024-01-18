@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\employer_listing;
 
 use App\Models\User;
+use App\Models\Resume;
 use App\Models\listing;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,7 +27,6 @@ class EmployerListingController extends Controller
         return view('employer.job_listings.show', [
             'listings' => $listings,
         ]);
-
     }
 
     /**
@@ -40,7 +40,7 @@ class EmployerListingController extends Controller
         // ];
 
         return view('employer.job_listings.create', [
-            'listings' => listing::where('user_id', '=' , Auth::id())->get(),
+            'listings' => listing::where('user_id', '=', Auth::id())->get(),
         ]);
     }
 
@@ -88,7 +88,6 @@ class EmployerListingController extends Controller
         } else {
             return back()->with(['failure' => 'Magic has failed to spell!']);
         }
-
     }
 
     /**
@@ -140,11 +139,11 @@ class EmployerListingController extends Controller
         ];
 
         // if ($listing->$request->description == "" || $listing->$request->address == "") {
-            if ($listing->update($data)) {
-                return back()->with(['success' => 'Successfully Updated!']);
-            } else {
-                return back()->with(['failure' => 'Failed to update!']);
-            }
+        if ($listing->update($data)) {
+            return back()->with(['success' => 'Successfully Updated!']);
+        } else {
+            return back()->with(['failure' => 'Failed to update!']);
+        }
         // }
 
     }
@@ -159,9 +158,9 @@ class EmployerListingController extends Controller
         ]);
 
         $data = [
-           'description' => $request->description,
-           'address' => $request->address,
-        //    'user_id' => Auth::id(),
+            'description' => $request->description,
+            'address' => $request->address,
+            //    'user_id' => Auth::id(),
         ];
         if ($listing->update($data)) {
             return back()->with(['success' => 'Successfully Updated!']);
@@ -230,10 +229,30 @@ class EmployerListingController extends Controller
      */
     public function destroy(listing $listing)
     {
-        if ($listing->delete()){
+        if ($listing->delete()) {
             return redirect()->route('showlisting')->with(['success' => 'Successfully deleted!']);
         } else {
             return redirect()->route('showlisting')->with(['failure' => 'Failed to delete!']);
         }
     }
+
+
+    // EmployerListingController.php
+    public function applications()
+    {
+        // $employer = Auth::user($id);
+        // dd($employer);  // Debug statement to check the authenticated user
+        // $applications = Resume::where('user_id', $employer->id)->get();
+        // $applications = Resume::where('user_id', $employer->id)->with('listing.user')->get();
+        // $Resume = Resume::find($id);
+        dd('$Resume');
+
+        // Uncomment the line below to debug and check the retrieved data
+        // dd($applications);
+
+        return view('employer.applicants.applications',
+        // ['applications' => $applications]
+    );
+    }
+
 }

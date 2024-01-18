@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'picture',
         'type',
+        'pdf',
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function listings()
     {
         return $this->hasMany(listing::class, 'user_id');
+    }
+
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
     }
 }

@@ -24,6 +24,7 @@
                                 <th>Email</th>
                                 <th>Contact No.</th>
                                 <th>Vacancies</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -36,6 +37,9 @@
                                     <td>{{ $listing->email }}</td>
                                     <td>{{ $listing->contact_no }}</td>
                                     <td>{{ $listing->vacancies_available }}</td>
+                                    <td>
+                                        <a href="{{ route('showjslisting',[ 'listing' => $listing ])}}" class="btn btn-primary">Show</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

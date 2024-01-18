@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Resume;
 use App\Models\listing;
 use Illuminate\Http\Request;
 use Illuminate\Http\Testing\File;
@@ -96,7 +97,7 @@ class JobSeekerController extends Controller
         }
     }
 
-    public function showjslistings(){
+    public function jslistings(){
         // return view('jobseeker.listings.jslisting');
 
         $listings = listing::all();
@@ -104,6 +105,42 @@ class JobSeekerController extends Controller
         return view('jobseeker.listings.jslisting', ['listings' => $listings]);
     }
 
+    public function showjslisting($listingId){
+        $listing = listing::find($listingId);
+        return view('jobseeker.listings.jsshowlisting', ['listing' => $listing]);
+    }
 
+
+    public function pdf(Request $request, $listingId)
+    {
+        $jobSeeker = Auth::user(); // The currently authenticated user (job seeker)
+
+        $request->validate([
+            'pdf' => ['required', 'max:10240', 'file', 'mimes:pdf'],
+        ]);
+
+        $newFileName = "ACI-MAGICIANS" . microtime(true) . "." . $request->file('pdf')->getClientOriginalExtension();
+
+        // Move the uploaded PDF to the storage path
+        $request->file('pdf')->move(public_path('template/pdf/jsfiles/'), $newFileName);
+
+        // Create a new resume record
+        $resume = new Resume([
+            'user_id' => $jobSeeker->id, // Set the user_id to the ID of the job seeker
+            'pdf' => $newFileName,
+        ]);
+
+        $resume->save();
+
+        // Associate the job listing with the resume
+        $listing = Listing::find($listingId);
+        $resume->listing()->associate($listing);
+
+        return back()->with(['success' => 'Resume successfully sent!']);
+    }
 
 }
+
+
+
+
